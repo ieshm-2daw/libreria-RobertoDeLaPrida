@@ -9,7 +9,12 @@ class CustomUser(AbstractUser):
     direcction = models.CharField(max_length=100)
     phone = models.PositiveIntegerField()
 
-    
+
+class Author(models.Model):
+    name = models.CharField(max_length=50, unique=True)
+    biography = models.TextField()
+
+
 class Libro(models.Model):
     title = models.CharField(max_length=50)
     author = models.ManyToManyField('Author')
@@ -42,15 +47,11 @@ class Libro(models.Model):
         return self.title
 
 
-class Author(models.Model):
-    name = models.CharField(max_length=50, unique=True)
-    biography = models.TextField()
-    #foto = models.ImageField() #Necesita Pillow
-
 class Editorial(models.Model):
     name = models.CharField(max_length=100, unique=True)
     direcction = models.TextField()
     website = models.URLField()
+
 
 class Loan(models.Model):
     book = models.ForeignKey('Libro', on_delete=models.CASCADE)
