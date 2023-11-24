@@ -4,7 +4,7 @@ from django.contrib.auth.models import AbstractUser
 
 
 
-class CustomUser(AbstractUser):
+class User(AbstractUser):
     dni = models.CharField(max_length=10)
     direcction = models.CharField(max_length=100)
     phone = models.PositiveIntegerField()
@@ -62,10 +62,10 @@ class Editorial(models.Model):
 
 
 class Loan(models.Model):
-    book = models.ForeignKey('Libro', on_delete=models.CASCADE)
+    book = models.ForeignKey('Book', on_delete=models.CASCADE)
     given_date = models.DateField()
     return_date = models.DateField()
-    user = models.ForeignKey('Usuario', on_delete=models.CASCADE)
+    user = models.ForeignKey('User', on_delete=models.CASCADE)
     STATE = (
         ('G', 'Given'),
         ('R', 'Returned'),
