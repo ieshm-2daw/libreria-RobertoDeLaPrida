@@ -8,12 +8,17 @@ class CustomUser(AbstractUser):
     dni = models.CharField(max_length=10)
     direcction = models.CharField(max_length=100)
     phone = models.PositiveIntegerField()
+    
+    def __str__(self):
+        return self.dni
 
 
 class Author(models.Model):
     name = models.CharField(max_length=50, unique=True)
     biography = models.TextField()
 
+    def __str__(self):
+        return self.name
 
 class Libro(models.Model):
     title = models.CharField(max_length=50)
@@ -51,6 +56,9 @@ class Editorial(models.Model):
     name = models.CharField(max_length=100, unique=True)
     direcction = models.TextField()
     website = models.URLField()
+    
+    def __str__(self):
+        return self.name
 
 
 class Loan(models.Model):
@@ -63,3 +71,6 @@ class Loan(models.Model):
         ('R', 'Returned'),
     )
     state = models.CharField(max_length=1, choices=STATE)
+
+    def __str__(self):
+        return self.book
