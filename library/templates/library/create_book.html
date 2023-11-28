@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create a book</title>
+</head>
+<body>
+    <div class="form">
+        <form action="{{% url 'create_book.html' %}}" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Add a book</button>
+        </form>
+    </div>
+    <div class="cancel">
+        <br>
+        <a href="{{% url 'home.html' %}}"><button>Cancel</button></a>
+    </div>
+</body>
+</html>

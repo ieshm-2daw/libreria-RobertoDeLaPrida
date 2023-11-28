@@ -6,11 +6,11 @@ from django.contrib.auth.models import AbstractUser
 
 class User(AbstractUser):
     dni = models.CharField(max_length=10)
-    direcction = models.CharField(max_length=100)
+    direction = models.CharField(max_length=100)
     phone = models.PositiveIntegerField()
     
     def __str__(self):
-        return self.dni
+        return self.username
 
 
 class Author(models.Model):
@@ -20,7 +20,7 @@ class Author(models.Model):
     def __str__(self):
         return self.name
 
-class Libro(models.Model):
+class Book(models.Model):
     title = models.CharField(max_length=50)
     author = models.ManyToManyField('Author')
     editorial = models.ForeignKey('Editorial', on_delete=models.CASCADE)
@@ -34,7 +34,7 @@ class Libro(models.Model):
     )
 
     genre = models.CharField(max_length=1,choices=GENRE)
-    isbn = models.IntegerField(max_length=13, unique=True)
+    isbn = models.IntegerField(unique=True)
     resume = models.TextField()
     front_page = models.ImageField(upload_to='front_pages/',blank=True,null=True)
 
