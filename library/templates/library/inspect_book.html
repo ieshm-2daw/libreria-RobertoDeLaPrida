@@ -15,10 +15,13 @@
             Genre: {{book.genre}}<br>
             ISBN: {{book.isbn}}<br>
             Resume: {{book.resume}}<br>
-            Front page: {{book.front_page}}<br>
+            Front page: <img width="150" src="{{ book.front_page.url }}"><br>
             Availability ((A=Aviable)(G=Given)): {{book.availability}}
         </p>
-
+    </div>
+    <div class="buttons">
+        <a href="{% url 'edit_book' pk=book.pk %}"><button>Edit</button></a>
+        <a href="{% url 'home' %}"><button>Go home</button></a>
     </div>
 </body>
 </html>

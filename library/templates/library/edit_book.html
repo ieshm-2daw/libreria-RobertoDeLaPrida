@@ -3,19 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create a book</title>
+    <title>Editing {{book.title}}</title>
 </head>
 <body>
-    <div class="form">
-        <form action="{% url 'create_book' %}" enctype="multipart/form-data" method="post">
+    <div>
+        <form action="{% url 'edit_book' pk=book.pk %}" method="POST">
             {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Add a book</button>
+            {{ form.as_p}}
+            <button type="submit">Save changes</button>
         </form>
     </div>
-    <div class="cancel">
+    <div>
         <br>
         <a href="{% url 'home' %}"><button>Cancel</button></a>
     </div>
+</body>
 </body>
 </html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmation</title>
+</head>
+<body>
+    <form method="POST">
+        {% csrf_token %}
+        <div>
+            <h2>Are you sure u want to delete the book "{{ object }}"?</h2>
+            <p>It will be deleted from existance and it wont be aviable anymore</p>
+            {{ form }}
+        </div>
+        <div>
+            <button type="submit">Yes, delete</button>
+            <a href="{% url 'home' %}"><button>Cancel</button></a>
+        </div>
+    </form>
+</body>
+</html>

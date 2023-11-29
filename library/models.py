@@ -7,7 +7,7 @@ from django.contrib.auth.models import AbstractUser
 class User(AbstractUser):
     dni = models.CharField(max_length=10)
     direction = models.CharField(max_length=100)
-    phone = models.PositiveIntegerField()
+    phone = models.PositiveIntegerField(null=True)
     
     def __str__(self):
         return self.username
@@ -46,7 +46,6 @@ class Book(models.Model):
         )
     
     availability = models.CharField(max_length=1, choices=AVAILABILITY)
-        #portada = models.ImageField() #Neceista Pillow
 
     def __str__(self):
         return self.title
