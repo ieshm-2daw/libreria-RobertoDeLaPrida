@@ -7,22 +7,31 @@
 </head>
 <body>
     <div class="book_list">
-        {% for book in object_list %}
-        {% if book.availability == 'A' %}
-            <h2>Books Aviable:</h2>
+        <!-- {% for book in object_list %} -->
+        <!-- {% if book.availability == 'A' %} -->
+        {% for book in available_books %}
+            <h2>Aviable Books:</h2>
             <a href="{% url 'inspect_book' pk=book.pk %}"><h2>Title: {{book.title}}</h2></a>
             <h6>Author: {{book.author}}</h6>
             <p>Editorial: {{book.editorial}}</p>
             <p>Front page: <img width="150" src="{{ book.front_page.url }}"></p>
-        {% endif %}
+        {% endfor %}
+        {% for book in unavailable_books %}
+        <h2>Unavailable books:</h2>
+            <a href="{% url 'inspect_book' pk=book.pk %}"><h2>Title: {{book.title}}</h2></a>
+            <h6>Author: {{book.author}}</h6>
+            <p>Editorial: {{book.editorial}}</p>
+            <p>Front page: <img width="150" src="{{ book.front_page.url }}"></p>
+        {% endfor %}
+        <!-- {% endif %}
         {% if book.availability == 'G' %}
             <h2>Books NOT aviable</h2>
             <a href="{% url 'inspect_book' pk=book.pk %}"><h2>Title: {{book.title}}</h2></a>
             <h6>Author: {{book.author}}</h6>
             <p>Editorial: {{book.editorial}}</p>
             <p>Front page: <img width="150" src="{{ book.front_page.url }}"></p>
-        {% endif %}
-        {% endfor %}
+        {% endif %} -->
+        <!-- {% endfor %} -->
     </div>
     <div class="buttons">
         <a href="{% url 'create_book' %}"><button>Create a book!</button></a>

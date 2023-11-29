@@ -1,3 +1,5 @@
+from typing import Any
+from django.db.models.query import QuerySet
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from .models import Book
@@ -8,6 +10,20 @@ from django.views.generic import ListView , CreateView , DetailView , UpdateView
 class ListBook(ListView):
     model = Book
     template_name='library/home.html'
+
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+
+        available_books = Book.objects.filter(availability='A')
+        unavailable_books = Book.objects.filter(availability='G')
+
+        context['available_books'] = available_books
+        context['unavailable_books'] = unavailable_books
+
+        return context
+
+    # def get_queryset(self):
+    #     return Book.objects.filter(availability='A')
 
 class CreateBook(CreateView):
     model=Book
