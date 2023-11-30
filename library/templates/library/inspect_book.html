@@ -22,6 +22,11 @@
     <div class="buttons">
         <a href="{% url 'edit_book' pk=book.pk %}"><button>Edit</button></a>
         <a href="{% url 'home' %}"><button>Go home</button></a>
+        <a href="{% url 'loan_book' pk=book.pk %}"><button>Loan {{object}}</button></a>
+    </div>
+    <div>
+        {% block content %}
+        {% endblock %}
     </div>
 </body>
 </html>

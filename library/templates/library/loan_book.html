@@ -1,0 +1,11 @@
+{% extends 'library/inspect_book.html' %}{% block content %}
+<div>
+    <form action="{% url 'loan_book' pk=book.pk %}" method="post">
+        {% csrf_token %}
+        <h3>Are you sure you want to loan this book?</h3>
+        <a><button type="submit">Yes</button></a>
+        <a href="{% url 'inspect_book' pk=book.pk%}"><button>Cancel</button></a>
+    </form>
+</div>    
+
+{% endblock %}

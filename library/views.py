@@ -1,9 +1,9 @@
 from typing import Any
 from django.db.models.query import QuerySet
-from django.shortcuts import render
+from django.shortcuts import render ,redirect, get_object_or_404
 from django.urls import reverse_lazy
 from .models import Book
-from django.views.generic import ListView , CreateView , DetailView , UpdateView , DeleteView , UpdateView
+from django.views.generic import ListView , CreateView , DetailView , UpdateView , DeleteView , UpdateView , View
 
 # Create your views here.
 
@@ -45,3 +45,15 @@ class EditBook(UpdateView):
     fields=['title' , 'author' , 'editorial' , 'published_date' , 'genre' , 'isbn' , 'resume' , 'front_page' , 'availability']
     template_name=('library/edit_book.html')
     success_url=reverse_lazy('home')
+
+class LoanBook(View):
+    template_name = 'library/loan_book.html'
+    def get(self,request,pk):
+        book = Book.objects.get(id=pk)
+        return render(request, self.template_name, {'book':book})
+    
+    def post(self,request,pk):
+        book = get_object_or_404(Book, pk=pk)
+        book.availability ='G'
+        book.save()
+        return redirect('home')
