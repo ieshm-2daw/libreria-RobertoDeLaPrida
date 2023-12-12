@@ -23,6 +23,7 @@
         <a href="{% url 'edit_book' pk=book.pk %}"><button>Edit</button></a>
         <a href="{% url 'home' %}"><button>Go home</button></a>
         <a href="{% url 'loan_book' pk=book.pk %}"><button>Loan {{object}}</button></a>
+        <a href="{% url 'return_book' pk=book.pk %}"><button>Return {{object}}</button></a>
     </div>
     <div>
         {% block content %}

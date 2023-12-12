@@ -20,10 +20,19 @@ class Author(models.Model):
     def __str__(self):
         return self.name
 
+
+class Editorial(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    direcction = models.TextField()
+    website = models.URLField()
+    
+    def __str__(self):
+        return self.name
+
 class Book(models.Model):
     title = models.CharField(max_length=50)
-    author = models.ManyToManyField('Author')
-    editorial = models.ForeignKey('Editorial', on_delete=models.CASCADE)
+    author = models.ManyToManyField(Author)
+    editorial = models.ForeignKey(Editorial, on_delete=models.CASCADE)
     published_date = models.DateField()
 
     GENRE = (
@@ -51,20 +60,12 @@ class Book(models.Model):
         return self.title
 
 
-class Editorial(models.Model):
-    name = models.CharField(max_length=100, unique=True)
-    direcction = models.TextField()
-    website = models.URLField()
-    
-    def __str__(self):
-        return self.name
-
 
 class Loan(models.Model):
     book = models.ForeignKey('Book', on_delete=models.CASCADE)
     given_date = models.DateField()
-    return_date = models.DateField()
-    user = models.ForeignKey('User', on_delete=models.CASCADE)
+    return_date = models.DateField(null=True,blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     STATE = (
         ('G', 'Given'),
         ('R', 'Returned'),
