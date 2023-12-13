@@ -3,28 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <title>Home</title>
 </head>
 <body>
-    <div class="book_list">
-        <h2><strong>Aviable Books:</strong></h2>
-        {% for book in available_books %}
-            <a href="{% url 'inspect_book' pk=book.pk %}"><h2>Title: {{book.title}}</h2></a>
-            <h6>Author: {{author.name}}</h6>
-            <p>Editorial: {{book.editorial}}</p>
-            <p>Front page: <img width="150" src="{{ book.front_pages.url }}"></p>
-        {% endfor %}
-        <h2><strong>Unaviable Books:</strong></h2>
-        {% for book in unavailable_books %}
-            <a href="{% url 'inspect_book' pk=book.pk %}"><h2>Title: {{book.title}}</h2></a>
-            <h6>Author: {{author.name}}</h6>
-            <p>Editorial: {{book.editorial}}</p>
-            <p>Front page: <img width="150" src="{{ book.front_pages.url }}"></p>
-        {% endfor %}
+    <div class="container-fluid">
+        <div class="row p-5">
+            <div class="col-3">
+                <nav>
+                    <h1>Library</h1>
+                </nav>
+            </div>
+            <div class="col-6 text-center">
+                <!-- <form method="get" action="{% url 'search_view' %}">
+                    <input type="text" name="q" placeholder="Search books">
+                    <button class="btn btn-primary" type="submit">Search</button>
+                </form> -->
+                <form class="d-flex col-12 text-center" role="search" method="get" action="{% url 'search_view' %}">
+                        <input class="form-control me-2" type="search" name="q" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-success col-2" type="submit">Search</button>
+                </form>
+            </div> 
+            <div class="buttons col-3">
+                <a class="btn btn-primary" href="{% url 'create_book' %}">Create a book!</a>
+                <a class="btn btn-primary" href="{% url 'list_book_by_user' %}">List my books</a>
+            </div> 
+        </div>
+        <div class="book_list row p-5">
+            <div class="col-12">
+                <h2>Aviable Books:</h2>
+                {% for book in available_books %}
+                    <a href="{% url 'inspect_book' pk=book.pk %}"><h3>Title: {{book.title}}</h3></a>
+                    <h6>Author: {{author.name}}</h6>
+                    <p>Editorial: {{book.editorial}}</p>
+                    <p>Front page: </p><img width="150" src="{{ book.front_pages.url }}" alt="Hola">
+                {% endfor %}
+            </div>
+            <h2>Unaviable Books:</h2>
+            {% for book in unavailable_books %}
+                <a href="{% url 'inspect_book' pk=book.pk %}"><h3>Title: {{book.title}}</h3></a>
+                <h6>Author: {{author.name}}</h6>
+                <p>Editorial: {{book.editorial}}</p>
+                <p>Front page: </p><img width="150" src="{{ book.front_pages.url }}" alt="Hola">
+            {% endfor %}
+        </div>
     </div>
-    <div class="buttons">
-        <a href="{% url 'create_book' %}"><button>Create a book!</button></a>
-        <a href="{% url 'list_book_by_user' %}"><button>List my books</button></a>
-    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </body>
 </html>

@@ -58,30 +58,58 @@ class LoanBook(View):
         book.availability = 'G'
         book.given_date = datetime.datetime.now()
         book.save()
+        loan = Loan()
+        loan.book = book
+        loan.given_date = datetime.datetime.now()
+        loan.user = request.user
+        loan.state = 'G'
+        loan.save()
         return redirect('home')
     
+
+
 class ReturnBook(View):
-    template_name = 'library/return_book.html'
-    def get(self,request,pk):
-        book = Book.objects.get(id=pk)
-        return render(request,self.template_name, {'book':book})
-    
-    def post(self,request,pk):
-        book= get_object_or_404(Book, pk=pk)
+    def get(self, request, pk):
+        loan = Loan.objects.get(id=pk)
+        return render(request, 'library/return_book.html', {'loan': loan})
+        
+    def post(self, request, pk):
+        loan = Loan.objects.get(id=pk)
+        loan.state = 'R'
+        loan.given_date = datetime.datetime.now()
+        loan.save()
+
+        book = loan.book
         book.availability = 'A'
         book.save()
         return redirect('home')
+        
 
-class ListBookByUser(View):
+class ListBookByUser(ListView):
     model = Loan
-    template_name='library/list_book_by_name'
+    template_name = 'library/list_book_by_user.html'
+
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
-
-        available_books = Book.objects.filter(availability='A', user = self.request.user)
-        unavailable_books = Book.objects.filter(availability='G', user = self.request.user)
-
-        context['available_books'] = available_books
-        context['unavailable_books'] = unavailable_books
-
+        context['given'] = Loan.objects.filter(state='G', user=self.request.user)
+        context['returned'] = Loan.objects.filter(state='R', user=self.request.user)
         return context
+
+
+from django.db.models import Q
+
+class SearchView(View):
+    template_name = 'library/search_book.html'
+
+    def get(self, request):
+        query = request.GET.get('q')
+
+        if query:
+            # Realizar la búsqueda en el título y autor del libro
+            results = Book.objects.filter(
+                Q(title__icontains=query) | Q(author__name__icontains=query)
+            )
+
+            return render(request, self.template_name, {'results': results, 'query': query})
+
+        return render(request, self.template_name, {'query': query})
