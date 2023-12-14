@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <title>Home</title>
 </head>
 <body>
     <div class="container-fluid">
-        <div class="row p-5">
+        <div class="row p-5" style="background-color: #cffff6;">
             <div class="col-3">
                 <nav>
                     <h1>Library</h1>
@@ -20,8 +21,8 @@
                     <button class="btn btn-primary" type="submit">Search</button>
                 </form> -->
                 <form class="d-flex col-12 text-center" role="search" method="get" action="{% url 'search_view' %}">
-                        <input class="form-control me-2" type="search" name="q" placeholder="Search" aria-label="Search">
-                        <button class="btn btn-outline-success col-2" type="submit">Search</button>
+                        <input class="form-control me-2" type="search" name="q" placeholder="Search a book..." aria-label="Search">
+                        <button class="btn btn-outline-success col-2" type="submit"><i class="bi bi-search"></i></button>
                 </form>
             </div> 
             <div class="buttons col-3">
@@ -34,7 +35,9 @@
                 <h2>Aviable Books:</h2>
                 {% for book in available_books %}
                     <a href="{% url 'inspect_book' pk=book.pk %}"><h3>Title: {{book.title}}</h3></a>
-                    <h6>Author: {{author.name}}</h6>
+                    {% for author in book.author.all %}
+                        <h6>Author: {{ author.name }}</h6>
+                    {% endfor %}
                     <p>Editorial: {{book.editorial}}</p>
                     <p>Front page: </p><img width="150" src="{{ book.front_pages.url }}" alt="Hola">
                 {% endfor %}
@@ -42,7 +45,9 @@
             <h2>Unaviable Books:</h2>
             {% for book in unavailable_books %}
                 <a href="{% url 'inspect_book' pk=book.pk %}"><h3>Title: {{book.title}}</h3></a>
-                <h6>Author: {{author.name}}</h6>
+                {% for author in book.author.all %}
+                    <h6>Author: {{ author.name }}</h6>
+                {% endfor %}
                 <p>Editorial: {{book.editorial}}</p>
                 <p>Front page: </p><img width="150" src="{{ book.front_pages.url }}" alt="Hola">
             {% endfor %}
