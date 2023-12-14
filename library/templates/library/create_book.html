@@ -9,7 +9,7 @@
 </head>
 <body>
     <div class="container-fluid">
-        <div class="row">
+        <div class="row p-2">
         <div class="form">
                 <form action="{% url 'create_book' %}" enctype="multipart/form-data" method="post">
                     {% csrf_token %}

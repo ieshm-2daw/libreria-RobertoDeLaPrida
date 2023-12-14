@@ -5,6 +5,7 @@ from django.shortcuts import render ,redirect, get_object_or_404
 from django.urls import reverse_lazy
 from .models import Book , Loan
 from django.views.generic import ListView , CreateView , DetailView , UpdateView , DeleteView , UpdateView , View
+from django.db.models import Q
 
 # Create your views here.
 
@@ -38,8 +39,8 @@ class InspectBook(DetailView):
 
 class DeleteBook(DeleteView):
     model = Book
-    template_name='library/delete_book.html'
-
+    template_name ='library/delete_book.html'
+    success_url = reverse_lazy('home')
 
 class EditBook(UpdateView):
     model=Book
@@ -66,8 +67,6 @@ class LoanBook(View):
         loan.save()
         return redirect('home')
     
-
-
 class ReturnBook(View):
     def get(self, request, pk):
         loan = Loan.objects.get(id=pk)
@@ -84,7 +83,6 @@ class ReturnBook(View):
         book.save()
         return redirect('home')
         
-
 class ListBookByUser(ListView):
     model = Loan
     template_name = 'library/list_book_by_user.html'
@@ -95,21 +93,13 @@ class ListBookByUser(ListView):
         context['returned'] = Loan.objects.filter(state='R', user=self.request.user)
         return context
 
-
-from django.db.models import Q
-
 class SearchView(View):
     template_name = 'library/search_book.html'
 
     def get(self, request):
-        query = request.GET.get('q')
+        query = request.GET.get('Buscar')
 
         if query:
-            # Realizar la búsqueda en el título y autor del libro
-            results = Book.objects.filter(
-                Q(title__icontains=query) | Q(author__name__icontains=query)
-            )
-
+            results = Book.objects.filter(Q(title__icontains=query))
             return render(request, self.template_name, {'results': results, 'query': query})
-
         return render(request, self.template_name, {'query': query})

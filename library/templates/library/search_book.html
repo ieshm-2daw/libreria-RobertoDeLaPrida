@@ -24,7 +24,11 @@
         <div class="col-12">
             <ul>
                 {% for book in results %}
-                <li>Title: "{{ book.title }}". Author: "{{ book.author.name }}"</li>
+                <li>Title: <a href="{% url 'inspect_book' pk=book.pk %}">"{{ book.title }}"</a>
+                    {% for author in book.author.all %}
+                        <p>Author: {{ author.name }}</p>
+                    {% endfor %}
+                </li>
                 {% endfor %}
             </ul>
             {% else %}

@@ -8,7 +8,7 @@
     <title>Return</title>
 </head>
 <body>
-    <div>
+    <div class="row">
         <form action="{% url 'return_book' pk=loan.pk %}" method="post">
             {% csrf_token %}
             <h3>Are you sure you want to return this book?</h3>
