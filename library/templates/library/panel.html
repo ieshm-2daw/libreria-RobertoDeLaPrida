@@ -14,9 +14,9 @@
                 <h2>Nº de libros prestados: {{ NGivenBook }}</h2>
                 <div id="carouselExample" class="carousel slide">
                     <div class="carousel-inner">
-                        {% for Loan in given %}
+                        {% for book in all_books %}
                         <div class="carousel-item active">
-                            <a href=""><img width="400" src="{{ Loan.front_page.url }}" alt="Funciona"></a>
+                            <a href="{% url 'inspect_book' pk=book.pk %}"><img width="400" src="{{ book.front_page.url }}" alt="Funciona"></a>
                         </div>
                         {% endfor %}
                     </div>

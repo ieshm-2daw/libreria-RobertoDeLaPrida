@@ -106,9 +106,10 @@ class SearchView(View):
     
 class PanelView(View):
     template_name = 'library/panel.html'
+    model=Book
     
     def get(self,request):
         NGivenBook = Loan.objects.count()
-        model= Loan
-
-        return render(request, self.template_name, {'NGivenBook':NGivenBook})
+        all_books = Loan.objects.all()
+        
+        return render(request, self.template_name, {'NGivenBook':NGivenBook, 'all_books':all_books})
