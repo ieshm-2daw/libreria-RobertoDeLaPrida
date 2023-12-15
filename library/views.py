@@ -103,3 +103,12 @@ class SearchView(View):
             results = Book.objects.filter(Q(title__icontains=query))
             return render(request, self.template_name, {'results': results, 'query': query})
         return render(request, self.template_name, {'query': query})
+    
+class PanelView(View):
+    template_name = 'library/panel.html'
+    
+    def get(self,request):
+        NGivenBook = Loan.objects.count()
+        model= Loan
+
+        return render(request, self.template_name, {'NGivenBook':NGivenBook})
