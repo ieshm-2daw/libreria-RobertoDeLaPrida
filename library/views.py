@@ -100,7 +100,7 @@ class SearchView(View):
         query = request.GET.get('Buscar')
 
         if query:
-            results = Book.objects.filter(Q(title__icontains=query))
+            results = Book.objects.filter(Q(title__icontains=query)|Q(resume__icontains=query))
             return render(request, self.template_name, {'results': results, 'query': query})
         return render(request, self.template_name, {'query': query})
     
