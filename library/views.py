@@ -103,6 +103,7 @@ class SearchView(View):
             results = Book.objects.filter(Q(title__icontains=query)|Q(resume__icontains=query))
             return render(request, self.template_name, {'results': results, 'query': query})
         return render(request, self.template_name, {'query': query})
+   
     
 class PanelView(View):
     template_name = 'library/panel.html'
