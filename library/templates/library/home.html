@@ -27,31 +27,50 @@
                 <a class="btn btn-primary" href="{% url 'create_book' %}">Create a book!</a>
                 <a class="btn btn-primary" href="{% url 'list_book_by_user' %}">List my books</a>
                 <a class="btn btn-primary" href="{% url 'panel' %}"><i class="bi bi-gear"></i></a>
-                <a class="btn btn-primary" href="#">Login</a>
+                {% if user.is_authenticated %}
+                    <a class="btn btn-primary" href="{% url 'logout' %}">Logout</a>
+                {% else %}
+                    <a class="btn btn-primary" href="{% url 'login' %}">Login</a>   
+                {% endif %}
             </div> 
         </div>
         <div class="book_list row p-5">
-            <div class="col-12">
+            <div class="col-12 text-center">
                 <h2>Aviable Books:</h2>
-                {% for book in available_books %}
-                    <a href="{% url 'inspect_book' pk=book.pk %}"><h3>Title: {{book.title}}</h3></a>
-                    {% for author in book.author.all %}
-                        <h6>Author: {{ author.name }}</h6>
+                <div class="row">
+                    {% for book in available_books %}
+                        <div class="col-4">
+                            <a href="{% url 'inspect_book' pk=book.pk %}"><img class="card-img-top pb-3" src="{{ book.front_page.url }}" alt="Something failed with the photo"></a>
+                            <div class="col-12 card-body">
+                                <a href="{% url 'inspect_book' pk=book.pk %}"><h3>Title: {{book.title}}</h3></a>
+                                
+                            {% for author in book.author.all %}
+                                <h6>Author: {{ author.name }}</h6>
+                            {% endfor %}
+                            <p>Editorial: {{book.editorial}}</p>
+                            </div>
+                        </div>
                     {% endfor %}
-                    <p>Editorial: {{book.editorial}}</p>
-                    <p>Front page: </p><img width="150" src="{{ book.front_page.url }}" alt="Hola">
-                {% endfor %}
+                </div>
             </div>
-            <div class="col-12">
+            <div class="col-12 text-center">
+                <hr>
                 <h2>Unaviable Books:</h2>
-            {% for book in unavailable_books %}
-                <a href="{% url 'inspect_book' pk=book.pk %}"><h3>Title: {{book.title}}</h3></a>
-                {% for author in book.author.all %}
-                    <h6>Author: {{ author.name }}</h6>
-                {% endfor %}
-                <p>Editorial: {{book.editorial}}</p>
-                <p>Front page: </p><img width="150" src="{{ book.front_page.url }}" alt="Hola">
-            {% endfor %}
+                <div class="row">
+                    {% for book in unavailable_books %}
+                        <div class="col-4">
+                            <a href="{% url 'inspect_book' pk=book.pk %}"><img class="card-img-top pb-3" src="{{ book.front_page.url }}" alt="Something failed with the photo"></a>
+                            <div class="col-12 card-body">
+                                <a href="{% url 'inspect_book' pk=book.pk %}"><h3>Title: {{book.title}}</h3></a>
+                                
+                            {% for author in book.author.all %}
+                                <h6>Author: {{ author.name }}</h6>
+                            {% endfor %}
+                            <p>Editorial: {{book.editorial}}</p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
             </div>
         </div>
     </div>

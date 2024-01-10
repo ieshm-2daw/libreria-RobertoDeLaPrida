@@ -6,6 +6,7 @@ from django.urls import reverse_lazy
 from .models import Book , Loan
 from django.views.generic import ListView , CreateView , DetailView , UpdateView , DeleteView , UpdateView , View
 from django.db.models import Q
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 # Create your views here.
 
@@ -27,7 +28,7 @@ class ListBook(ListView):
     # def get_queryset(self):
     #     return Book.objects.filter(availability='A')
 
-class CreateBook(CreateView):
+class CreateBook(LoginRequiredMixin, CreateView):
     model=Book
     fields=['title' , 'author' , 'editorial' , 'published_date' , 'genre' , 'isbn' , 'resume' , 'front_page' , 'availability']
     template_name='library/create_book.html'
@@ -37,18 +38,18 @@ class InspectBook(DetailView):
     model=Book
     template_name='library/inspect_book.html'
 
-class DeleteBook(DeleteView):
+class DeleteBook(LoginRequiredMixin, DeleteView):
     model = Book
     template_name ='library/delete_book.html'
     success_url = reverse_lazy('home')
 
-class EditBook(UpdateView):
+class EditBook(LoginRequiredMixin, UpdateView):
     model=Book
     fields=['title' , 'author' , 'editorial' , 'published_date' , 'genre' , 'isbn' , 'resume' , 'front_page' , 'availability']
     template_name=('library/edit_book.html')
     success_url=reverse_lazy('home')
 
-class LoanBook(View):
+class LoanBook(LoginRequiredMixin, View):
     template_name = 'library/loan_book.html'
     def get(self,request,pk):
         book = Book.objects.get(id=pk)
@@ -67,7 +68,7 @@ class LoanBook(View):
         loan.save()
         return redirect('home')
     
-class ReturnBook(View):
+class ReturnBook(LoginRequiredMixin, View):
     def get(self, request, pk):
         loan = Loan.objects.get(id=pk)
         return render(request, 'library/return_book.html', {'loan': loan})
@@ -83,7 +84,7 @@ class ReturnBook(View):
         book.save()
         return redirect('home')
         
-class ListBookByUser(ListView):
+class ListBookByUser(LoginRequiredMixin, ListView):
     model = Loan
     template_name = 'library/list_book_by_user.html'
 
@@ -105,7 +106,7 @@ class SearchView(View):
         return render(request, self.template_name, {'query': query})
    
     
-class PanelView(View):
+class PanelView(LoginRequiredMixin, View):
     template_name = 'library/panel.html'
     model=Book
     
